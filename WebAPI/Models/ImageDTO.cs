@@ -1,14 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
-using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace ImageDatabase.Entities
+namespace WebAPI.Models
 {
-    public class ImageEntity
+    public class ImageDTO
     {
+
         public Guid Id { get; set; }
 
         public string Title { get; set; }
@@ -16,5 +15,6 @@ namespace ImageDatabase.Entities
         public string Date = DateTime.Now.ToString("MM/dd/yyyy");
         public string Time = DateTime.Now.ToString("hh:mm tt");
         public string OwnerId { get; set; }
+
     }
 }
