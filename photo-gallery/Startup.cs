@@ -1,8 +1,12 @@
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Identity;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using photo_gallery.Database;
+using photo_gallery.Security;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -22,6 +26,16 @@ namespace photo_gallery
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+            services.AddControllers();
+            services.AddDbContext<AuthDatabaseContext>(opt => opt.UseSqlServer("name=ConnectionStrings:DefaultConnection"));
+            // services.AddDbContext<AuthDatabaseContext>(opt => opt.UseSqlServer(Configuration.GetConnectionString("DefaultConnection"), b => b.MigrationsAssembly("AuthDatabase"))); services.AddControllersWithViews();
+
+            services.AddIdentity<User, IdentityRole>()
+                .AddEntityFrameworkStores<AuthDatabaseContext>()
+                .AddDefaultTokenProviders();
+
+            services.AddAuthentication();
+
             services.AddControllersWithViews();
         }
 
@@ -41,6 +55,7 @@ namespace photo_gallery
             app.UseRouting();
 
             app.UseAuthorization();
+            app.UseAuthentication();
 
             app.UseEndpoints(endpoints =>
             {
