@@ -15,6 +15,6 @@ namespace ImageDatabase.Entities
         public string ImageUrl { get; set; }
         public string Date = DateTime.Now.ToString("MM/dd/yyyy");
         public string Time = DateTime.Now.ToString("hh:mm tt");
-        public string OwnerId { get; set; }
+        public string UserId { get; set; }
     }
 }

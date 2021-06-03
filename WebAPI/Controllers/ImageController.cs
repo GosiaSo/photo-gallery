@@ -9,7 +9,7 @@ using WebAPI.Models;
 namespace WebAPI.Controllers
 {
     [Route("api/[controller]")]
-    [Produces("Application/json")]
+    [Produces("application/json")]
     [ApiController]
     public class ImageController : ControllerBase
     {
@@ -20,11 +20,11 @@ namespace WebAPI.Controllers
             _dbContext = dbContext;
         }
 
-        // api/photo-gallery/id
-        [HttpGet("{ownerId}")]
-        public ActionResult<IEnumerable<ImageDTO>> Get(string ownerId)
+        // api/photo-gallery/{id}
+        [HttpGet("{userId}")]
+        public ActionResult<IEnumerable<ImageDTO>> Get(string userId)
         {
-            _dbContext.ImageEntities.Where(item => item.OwnerId == ownerId).Select(e => new ImageDTO
+            return _dbContext.ImageEntities.Where(item => item.UserId == userId).Select(e => new ImageDTO
             {
                 Id = e.Id,
                 Title = e.Title,
@@ -34,6 +34,49 @@ namespace WebAPI.Controllers
             }).ToList();
         }
 
+
+        // 
+        [HttpPost]
+        public ActionResult<Guid> Post([FromBody]ImageDTO value)
+        {
+            Guid id = Guid.NewGuid();
+            _dbContext.ImageEntities.Add(new ImageDatabase.Entities.ImageEntity
+            {
+                Id = id,
+                Title = value.Title,
+                ImageUrl = value.ImageUrl,
+                Date = value.Date,
+                Time = value.Time
+            });
+            _dbContext.SaveChanges();
+            return id;
+        }
+
+        //
+        [HttpPut("{id}")]
+        public void Put(Guid id, [FromBody] ImageDTO value)
+        {
+            var entity = _dbContext.ImageEntities.SingleOrDefault(e => e.Id == id);
+
+            if (entity != null)
+            {
+                entity.Date = value.Date;
+                entity.Time = value.Time;
+                _dbContext.SaveChanges();
+            }
+        }
+
+        [HttpDelete("{id}")]
+        public void Delete(Guid id, [FromBody] ImageDTO value)
+        {
+            var entity = _dbContext.ImageEntities.SingleOrDefault(e => e.Id == id);
+
+            if (entity != null)
+            {
+                _dbContext.ImageEntities.Remove(entity);
+                _dbContext.SaveChanges();
+            }
+        }
 
     }
 }
