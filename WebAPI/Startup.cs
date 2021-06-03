@@ -28,7 +28,12 @@ namespace WebAPI
         {
             services.AddDbContext<DatabaseContext>(options => options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection"), b => b.MigrationsAssembly("Database")));
             services.AddControllers();
-            
+
+            services.AddSwaggerGen(e =>
+            {
+                e.SwaggerDoc("v1", new Microsoft.OpenApi.Models.OpenApiInfo { Title = "Image API", Version = "v1"});
+            });
+
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -38,6 +43,14 @@ namespace WebAPI
             {
                 app.UseDeveloperExceptionPage();
             }
+
+            // http://localhost:28143/swagger/index.html 
+            app.UseSwagger();
+            app.UseSwaggerUI( e =>
+            {
+                e.SwaggerEndpoint("/swagger/v1/swagger.json", "Image Swagger");
+            }
+                );
 
             app.UseRouting();
 
