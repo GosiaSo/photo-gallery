@@ -20,7 +20,7 @@ namespace WebAPI.Controllers
             _dbContext = dbContext;
         }
 
-        // api/photo-gallery/{id}
+        // api/Image/{id}
         [HttpGet("{userId}")]
         public ActionResult<IEnumerable<ImageDTO>> Get(string userId)
         {
@@ -30,7 +30,8 @@ namespace WebAPI.Controllers
                 Title = e.Title,
                 ImageUrl = e.ImageUrl,
                 Date = e.Date,
-                Time = e.Time
+                Time = e.Time,
+                Comment = e.Comment
             }).ToList();
         }
 
@@ -45,8 +46,10 @@ namespace WebAPI.Controllers
                 Id = id,
                 Title = value.Title,
                 ImageUrl = value.ImageUrl,
-                Date = value.Date,
-                Time = value.Time
+                Date = DateTime.Now.ToString("MM/dd/yyyy"),
+                Time = DateTime.Now.ToString("hh:mm tt"),
+        Comment = value.Comment,
+                UserId = value.UserId
             });
             _dbContext.SaveChanges();
             return id;
