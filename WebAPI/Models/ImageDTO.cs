@@ -12,8 +12,9 @@ namespace WebAPI.Models
 
         public string Title { get; set; }
         public string ImageUrl { get; set; }
-        public string Date = DateTime.Now.ToString("MM/dd/yyyy");
-        public string Time = DateTime.Now.ToString("hh:mm tt");
+        public string Date { get; set; }
+        public string Time { get; set; }
+        public string Comment { get; set; }
         public string UserId { get; set; }
 
     }
