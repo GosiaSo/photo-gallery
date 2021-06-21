@@ -8,7 +8,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace photo_gallery
+namespace WebApp
 {
     public class Startup
     {

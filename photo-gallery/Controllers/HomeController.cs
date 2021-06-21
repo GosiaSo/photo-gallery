@@ -1,9 +1,9 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
-using photo_gallery.Models;
+using WebApp.Models;
 using System.Diagnostics;
 
-namespace photo_gallery.Controllers
+namespace WebApp.Controllers
 {
     public class HomeController : Controller
     {
