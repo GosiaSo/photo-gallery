@@ -1,6 +1,6 @@
 using System;
 
-namespace photo_gallery.Models
+namespace WebApp.Models
 {
     public class ErrorViewModel
     {
