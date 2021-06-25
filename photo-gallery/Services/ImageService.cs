@@ -13,7 +13,7 @@ namespace WebApp.Services
 
         HttpClient http = new HttpClient();
 
-        public async Task<Guid> AddItemAsync(ImageItemViewModel item, string userId, string title)
+        public async Task<Guid> AddImageAsync(ImageItemViewModel image, string userId, string title)
         {
             ImageWebApiClient apiClient = new ImageWebApiClient(url, http);
 
@@ -22,6 +22,13 @@ namespace WebApp.Services
 
             Guid returnValue = await apiClient.ImageAsync(item.ImageDTO());
 
+            return returnValue;
+        }
+
+        public async Task<ImageItemViewModel> GetImageAsync(string userId)
+        {
+            ImageWebApiClient apiClient = new ImageWebApiClient(url, http);
+            var dtoImages = await apiClient.ImageAllAsync(userId);
             return returnValue;
         }
 

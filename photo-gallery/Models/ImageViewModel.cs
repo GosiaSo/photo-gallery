@@ -6,17 +6,13 @@ using System.Threading.Tasks;
 
 namespace WebApp.Models
 {
-    public class ImagesViewModel
+    public class ImageViewModel
     {
         public ImageItemViewModel[] Images { get; set; }
 
-        public ImagesViewModel()
+        public ImageViewModel()
         {
             Images = new ImageItemViewModel[0];
         }
     }
-
-    
-
-
 }
