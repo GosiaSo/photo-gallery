@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -11,21 +12,28 @@ namespace WebApp.Controllers
     public class ImageController : Controller
     {
         private readonly IImageService _imageService;
-
+        private readonly UserManager<AppUser> _userManager;
 
         public async Task<IActionResult> Index()
         {
-            var image = await _imageService.GetPhotosAsync();
-            var model = new ImagesViewModel();
+
+            var currentUser = await _userManager.GetUserAsync(User);
+            if (currentUser == null)
+            {
+                return Challenge();
+            }
+
+            var image = await _imageService.GetImageAsync(currentUser.Id);
+            var model = new ImageViewModel();
             {
                 Images = images;
             };
 
             return View(model);
         }
-        public IActionResult Index()
+        public IActionResult Indexxx()
         {
-            return View(new ImagesViewModel());
+            return View(new ImageViewModel());
         }
     }
 }

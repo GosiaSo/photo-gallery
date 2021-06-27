@@ -12,7 +12,7 @@ namespace WebApp.Models
 
         public ImageViewModel()
         {
-            Images = new ImageItemViewModel[0];
+            Image = new ImageItemViewModel[0];
         }
     }
 }
