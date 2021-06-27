@@ -20,11 +20,16 @@ namespace WebApp.Services
             item.UserId = userId;
             item.Title = title;
 
-            Guid returnValue = await apiClient.ImageAsync(item.ImageDTO());
+            Guid returnValue = await apiClient.ImageAsync(item.ToImageDto());
 
             return returnValue;
         }
 
-       
+        public async Task<ImageItemViewModel[]> GetItemsAsync(string userId)
+        {
+            ImageWebApiClient apiClient = new ImageWebApiClient(url, http);
+            var dtoItems = await apiClient.ImageAllAsync(userId);
+            return dtoItems.Select(dto => ImageItemViewModel.FromDto(dto)).ToArray();
+        }
     }
 }
