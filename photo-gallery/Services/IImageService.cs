@@ -6,9 +6,9 @@ using WebApp.Models;
 
 namespace WebApp.Services
 {
-    interface IImageService
+    public class IImageService
     {
-        Task<Guid> AddItemAsync(ImageItemViewModel item, string userId);
-        Task<ImageItemViewModel[]> GetItemsAsync(string ownerId);
+        Task<Guid> AddImageAsync(ImageItemViewModel image, string UserId);
+        Task<ImageItemViewModel[]> GetImageAsync(string UserId);
     }
 }
