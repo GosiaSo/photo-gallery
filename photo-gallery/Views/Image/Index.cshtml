@@ -1,6 +1,6 @@
 ﻿@model ImageViewModel
 
-@using Humanizer;
+@*@using Humanizer;*@
 
 @{
     ViewData["Title"] ="My Photo Gallery";
@@ -17,7 +17,7 @@
                 <td>URL</td>
             </tr>
         </thead>
-        @foreach (var image in Model.Image)
+        @foreach (var image in Model.Images)
             {
                 <tr>
                    <td>@image.Title</td>

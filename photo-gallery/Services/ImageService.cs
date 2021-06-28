@@ -17,20 +17,20 @@ namespace WebApp.Services
         {
             ImageWebApiClient apiClient = new ImageWebApiClient(url, http);
 
-            item.UserId = userId;
-            item.Title = title;
+            image.UserId = userId;
+            image.Title = title;
 
-            Guid returnValue = await apiClient.ImageAsync(item.ToImageDto());
+            Guid returnValue = await apiClient.ImageAsync(image.ToImageDto());
 
             return returnValue;
         }
 
-        public async Task<ImageItemViewModel> GetImageAsync(string userId)
-        {
-            ImageWebApiClient apiClient = new ImageWebApiClient(url, http);
-            var dtoImages = await apiClient.ImageAllAsync(userId);
-            return returnValue;
-        }
+        //public async Task<ImageItemViewModel> GetImageAsync(string userId)
+        //{
+        //    ImageWebApiClient apiClient = new ImageWebApiClient(url, http);
+        //    var dtoImages = await apiClient.ImageAllAsync(userId);
+        //    return returnValue;
+        //}
 
         public async Task<ImageItemViewModel[]> GetItemsAsync(string userId)
         {

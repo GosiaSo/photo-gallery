@@ -23,17 +23,14 @@ namespace WebApp.Controllers
                 return Challenge();
             }
 
-            var image = await _imageService.GetImageAsync(currentUser.Id);
-            var model = new ImageViewModel();
+            var images = await _imageService.GetImageAsync(currentUser.Id);
+            
+            var model = new ImageViewModel()
             {
-                Images = images;
+                Images = images
             };
 
             return View(model);
-        }
-        public IActionResult Indexxx()
-        {
-            return View(new ImageViewModel());
         }
     }
 }
