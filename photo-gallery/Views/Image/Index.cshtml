@@ -1,12 +1,11 @@
 ﻿@model ImageViewModel
-
 @*@using Humanizer;*@
 
 @{
-    ViewData["Title"] ="My Photo Gallery";
+    ViewData["Title"] = "My Photo Gallery";
 
 }
-<div class="panel panel-default image-panel">
+@*<div class="panel panel-default image-panel">
     <div class="panel-heading">@ViewData["Title"]</div>
 
     <table class="table table-hover">
@@ -18,14 +17,26 @@
             </tr>
         </thead>
         @foreach (var image in Model.Images)
-            {
-                <tr>
-                   <td>@image.Title</td>
-                   <td>@image.ImageUrl</td>
-                </tr>
+        {
+            <tr>
+                <td>@image.Title</td>
+                <td>@image.ImageUrl</td>
+            </tr>
 
-            }
+        }
     </table>
 
+</div>*@
 
+<!-- Gallery -->
+<div class="row">
+    @foreach (var image in Model.Images)
+    {
+        <div class="col-lg-4 col-md-12 mb-4 mb-lg-0">
+            <img src="@image.ImageUrl"
+                 class="w-100 shadow-1-strong rounded mb-4"
+                 alt="" />
+        </div>
+    }
 </div>
+<!-- Gallery -->
