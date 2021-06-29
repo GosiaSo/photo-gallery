@@ -1,4 +1,5 @@
-﻿using AuthDatabase;
+﻿using AuthDatabase.Entities;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using System;
@@ -14,6 +15,13 @@ namespace WebApp.Controllers
     {
         private readonly IImageService _imageService;
         private readonly UserManager<AppUser> _userManager;
+
+        public ImageController (IImageService imageService, UserManager<AppUser> userManager)
+        {
+            _imageService = imageService;
+            _userManager = userManager;        
+        }
+
 
         public async Task<IActionResult> Index()
         {
@@ -32,6 +40,21 @@ namespace WebApp.Controllers
             };
 
             return View(model);
+        }
+
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> AddImage(ImageItemViewModel newImage)
+        {
+            var currentUser = await _userManager.GetUserAsync(User);
+
+            if (currentUser == null)
+            {
+                return Challenge();
+            }
+
+            Guid guid = await _imageService.AddImageAsync(newImage, currentUser.Id);
+
+            return RedirectToAction("Index");
         }
     }
 }

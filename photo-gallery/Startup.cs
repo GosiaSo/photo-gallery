@@ -8,8 +8,9 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using AuthDatabase;
+using AuthDatabase.Entities;
 using Microsoft.AspNetCore.Identity;
+using AuthDatabase;
 
 namespace WebApp
 {

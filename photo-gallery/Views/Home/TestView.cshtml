@@ -1,32 +1,8 @@
-﻿@model ImageViewModel
-@*@using Humanizer;*@
-
-@*@{
-    ViewData["Title"] = "My Photo Gallery";
-
-}*@
-@*<div class="panel panel-default image-panel">
-        <div class="panel-heading">@ViewData["Title"]</div>
-
-        <table class="table table-hover">
-            <thead>
-                <tr>
-                    <td>&#x2714;</td>
-                    <td>Photo</td>
-                    <td>URL</td>
-                </tr>
-            </thead>
-            @foreach (var image in Model.Images)
-            {
-                <tr>
-                    <td>@image.Title</td>
-                    <td>@image.ImageUrl</td>
-                </tr>
-
-            }
-        </table>
-
-    </div>*@
+﻿@*
+    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
+*@
+@{
+}
 <!-- Gallery -->
 <div class="row">
     <div class="col-lg-4 col-md-12 mb-4 mb-lg-0">
@@ -58,17 +34,5 @@
              class="w-100 shadow-1-strong rounded mb-4"
              alt="" />
     </div>
-</div>
-<!-- Gallery -->
-<!-- Gallery -->
-<div class="row">
-    @foreach (var image in Model.Images)
-    {
-        <div class="col-lg-4 col-md-12 mb-4 mb-lg-0">
-            <img src="@image.ImageUrl"
-                 class="w-100 shadow-1-strong rounded mb-4"
-                 alt="" />
-        </div>
-    }
 </div>
 <!-- Gallery -->
