@@ -1,4 +1,5 @@
-﻿using AuthDatabase;
+﻿
+using AuthDatabase;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using System;

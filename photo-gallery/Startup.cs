@@ -8,7 +8,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using AuthDatabase.Entities;
+using AuthDatabase;
 using Microsoft.AspNetCore.Identity;
 using AuthDatabase;
 

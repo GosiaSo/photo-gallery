@@ -4,7 +4,7 @@ using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Text;
-using AuthDatabase.Entities;
+using AuthDatabase;
 
 namespace AuthDatabase
 {
