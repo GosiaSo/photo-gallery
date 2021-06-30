@@ -11,6 +11,7 @@ using System.Threading.Tasks;
 using AuthDatabase;
 using Microsoft.AspNetCore.Identity;
 using AuthDatabase;
+using WebApp.Services;
 
 namespace WebApp
 {
@@ -37,6 +38,8 @@ namespace WebApp
                 opt.CheckConsentNeeded = ctx => true;
                 opt.MinimumSameSitePolicy = Microsoft.AspNetCore.Http.SameSiteMode.None;
             });
+
+            services.AddScoped<IImageService, ImageService>();
 
             services.AddAuthentication();
 

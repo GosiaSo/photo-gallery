@@ -8,7 +8,7 @@ namespace WebApp.Services
 {
     public interface IImageService
     {
-        Task<Guid> AddImageAsync(ImageItemViewModel image, string UserId);
-        Task<ImageItemViewModel[]> GetImageAsync(string UserId);
+        Task<Guid>  AddImageAsync(ImageItemViewModel image, string UserId);
+        Task<ImageItemViewModel[]> GetImageAsync(string userId);
     }
 }
