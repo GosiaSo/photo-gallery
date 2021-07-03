@@ -1,6 +1,34 @@
-﻿@*@model ImageViewModel*@
+﻿@model ImageViewModel
 
-@{  ViewBag.Title = "My Gallery Main Page";
+@{ ViewBag.Title = "My Gallery Main Page";
     ViewBag.Active = "home";
-    Layout = "~/Views/Shared/_Layout.cshtml"; 
+    Layout = "~/Views/Shared/_Layout.cshtml";
 }
+
+@foreach (var image in Model.Images)
+{
+    <div class="card" style="width: 18rem;">
+        <img src="@image.ImageUrl" class="card-img-top" alt="...">
+        <div class="card-body">
+            <h5 class="card-text">@image.Title</h5>
+            <a href="#" class="btn btn-primary">Go somewhere</a>
+        </div>
+    </div>
+}
+
+<div class="panel-footer add-item-form">
+    @await Html.PartialAsync("_AddImagePartial", new ImageItemViewModel())
+</div>
+
+<div class="row">
+    <div class="col-lg-4 col-md-12 mb-4 mb-lg-0">
+        <img src="https://mdbootstrap.com/img/Photos/Horizontal/Nature/4-col/img%20(73).jpg"
+             class="w-100 shadow-1-strong rounded mb-4"
+             alt="" />
+
+        <img src="https://mdbootstrap.com/img/Photos/Vertical/mountain1.jpg"
+             class="w-100 shadow-1-strong rounded mb-4"
+             alt="" />
+    </div>
+</div>
+
