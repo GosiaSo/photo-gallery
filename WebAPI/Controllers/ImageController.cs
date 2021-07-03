@@ -13,9 +13,9 @@ namespace WebAPI.Controllers
     [ApiController]
     public class ImageController : ControllerBase
     {
-        DatabaseContext _dbContext;
+        ImageDatabaseContext _dbContext;
 
-        public ImageController(DatabaseContext dbContext)
+        public ImageController(ImageDatabaseContext dbContext)
         {
             _dbContext = dbContext;
         }
