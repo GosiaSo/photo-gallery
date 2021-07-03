@@ -2,9 +2,6 @@
 using AuthDatabase;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
-using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Threading.Tasks;
 using WebApp.Models;
 
@@ -71,7 +68,7 @@ namespace WebApp.Controllers
 
             if (ModelState.IsValid)
             {
-                var user = new AppUser { UserName = model.Email, Email = model.Email, FirstName = model.FirstName, LastName = model.LastName };
+                var user = new AppUser { UserName = model.Email, Email = model.Email, FirstName = model.FirstName, LastName = model.LastName, UserImgID = model.UserImgID };
 
                 var result = await _userManager.CreateAsync(user, model.Password);
 

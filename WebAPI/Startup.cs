@@ -1,20 +1,15 @@
+using Azure.Core.Extensions;
+using Azure.Storage.Blobs;
+using Azure.Storage.Queues;
 using ImageDatabase;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Azure;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
-using Microsoft.Extensions.Logging;
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using Microsoft.Extensions.Azure;
-using Azure.Storage.Queues;
-using Azure.Storage.Blobs;
-using Azure.Core.Extensions;
 
 namespace WebAPI
 {
@@ -37,9 +32,10 @@ namespace WebAPI
             {
                 e.SwaggerDoc("v1", new Microsoft.OpenApi.Models.OpenApiInfo { Title = "Image API", Version = "v1"});
             });
+
             services.AddAzureClients(builder =>
             {
-                builder.AddBlobServiceClient(Configuration["AzureSettings:blob"], preferMsi: true);
+                builder.AddBlobServiceClient(Configuration["AzureSettings:blob"], preferMsi: true).WithName("Default");
                 builder.AddQueueServiceClient(Configuration["AzureSettings:queue"], preferMsi: true);
             });
 
@@ -69,6 +65,9 @@ namespace WebAPI
             {
                 endpoints.MapControllers();
             });
+
+            // Utwórz nowy Kontener na Bloby je¿eli ten nie istnieje.
+            StartupExtensions.InitiateBlobContainer(Configuration["AzureStorage:ConnectionString"], Configuration["AzureStorage:defaultContainer"]);
         }
     }
     internal static class StartupExtensions
@@ -94,6 +93,12 @@ namespace WebAPI
             {
                 return builder.AddQueueServiceClient(serviceUriOrConnectionString);
             }
+        }
+
+        public static void InitiateBlobContainer(string connectionSTR, string containerNAME) 
+        {
+            BlobContainerClient blobContainerClient = new BlobContainerClient(connectionSTR, containerNAME);
+            blobContainerClient.CreateIfNotExists();
         }
     }
 }

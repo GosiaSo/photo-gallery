@@ -14,6 +14,12 @@
             <hr />
             <div asp-validation-summary="All" class="text-danger"></div>
 
+            <div class="form-group" hidden>
+                <label asp-for="UserImgID"></label>
+                <input asp-for="UserImgID" class="form-control" value="@Guid.NewGuid()" />
+                <span asp-validation-for="UserImgID" class="text-danger"></span>
+            </div>
+
             <div class="form-group">
                 <label asp-for="FirstName"></label>
                 <input asp-for="FirstName" class="form-control" />

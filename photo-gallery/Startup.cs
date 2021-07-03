@@ -1,16 +1,12 @@
+using AuthDatabase;
+using ImageDatabase;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using AuthDatabase;
-using ImageDatabase;
-using Microsoft.AspNetCore.Identity;
 using WebApp.Services;
 
 namespace WebApp
@@ -27,7 +23,9 @@ namespace WebApp
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+            // Dodanie Contextu AuthDatabase
             services.AddDbContext<AuthDatabaseContext>(opt => opt.UseSqlServer(Configuration.GetConnectionString("DefaultConnection"), b => b.MigrationsAssembly("AuthDatabase")));
+            // Dodanie Contextu ImageDatabase
             services.AddDbContext<ImageDatabaseContext>(opt => opt.UseSqlServer(Configuration.GetConnectionString("DefaultConnection"), b => b.MigrationsAssembly("ImageDatabase")));
 
             services.AddIdentity<AppUser, IdentityRole>()
