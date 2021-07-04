@@ -6,6 +6,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using WebAPI.Models;
+using Azure.Storage.Sas;
 
 namespace WebAPI.Controllers
 {
@@ -51,7 +52,7 @@ namespace WebAPI.Controllers
         }
 
         // api/Image/GetAll/{userId}
-        [HttpGet(nameof(GetAll)+ "/{UserImgId}", Name = nameof(GetAll))]
+        [HttpGet(nameof(GetAll) + "/{UserImgId}", Name = nameof(GetAll))]
         public ActionResult<IEnumerable<ImageDTO>> GetAll(string UserImgId)
         {
             BlobContainerClient containerClient = new BlobContainerClient("UseDevelopmentStorage=true", "galleryimages");
@@ -60,14 +61,15 @@ namespace WebAPI.Controllers
             string container_url = containerClient.Uri.ToString();
 
             return _dbContext.ImageEntities.Where(item => item.UserImgID == UserImgId).Select(e => new ImageDTO
-                {
-                    Id = e.Id,
-                    Extension = e.Extension,
-                    Title = e.Title,
-                    Date = e.Date,
-                    Time = e.Time,
-                    Description = e.Description
-                }).ToList();
+            {
+                Id = e.Id,
+                Extension = e.Extension,
+                Title = e.Title,
+                Date = e.Date,
+                Time = e.Time,
+                Description = e.Description,
+                imgURL = containerClient.GetBlobClient(UserImgId + "/" + e.Id).GenerateSasUri(BlobSasPermissions.Read, DateTimeOffset.Now.AddHours(1)).ToString()
+            }).ToList();
         }
     }
 

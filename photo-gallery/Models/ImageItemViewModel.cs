@@ -12,7 +12,7 @@ namespace WebApp.Models
         public string Description { get; set; }
         public string UserImgId { get; set; }
         public string FilePath { get; set; }
-
+        public string imgURL { get; set; }
 
 
         internal ImageDTO ToImageDto()
@@ -25,6 +25,7 @@ namespace WebApp.Models
             returnValue.Date = Date;
             returnValue.Time = Time;
             returnValue.Description = Description;
+            returnValue.imgURL = imgURL;
 
             return returnValue;
         }
@@ -35,8 +36,11 @@ namespace WebApp.Models
 
             returnValue.Id = dto.Id;
             returnValue.Title = dto.Title;
+            returnValue.Extension = dto.Extension;
             returnValue.Date = dto.Date;
+            returnValue.Time = dto.Time;
             returnValue.Description = dto.Description;
+            returnValue.imgURL = dto.imgURL;
 
             return returnValue;
         }
