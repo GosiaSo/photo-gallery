@@ -17,7 +17,8 @@
                 <img src="@image.imgURL" class="card-img-top" alt="...">
                 <div class="card-body">
                     <h5 class="card-text">@image.Title</h5>
-                    <a href="#" class="btn btn-primary">Go somewhere</a>
+                    <a href="#" class="btn btn-primary col-sm-4">Zoom</a>
+                    <a action="@Url.Action("Delete", new{ Id = image.Id })" class="btn btn-danger col-sm-4">Delete</a>
                 </div>
             </div>
         </div>
@@ -26,14 +27,13 @@
 
 @*Fake Gallery*@
 @*<div class="row">
-        <div class="col-lg-4 col-md-12 mb-4 mb-lg-0">
-            <img src="https://mdbootstrap.com/img/Photos/Horizontal/Nature/4-col/img%20(73).jpg"
-                 class="w-100 shadow-1-strong rounded mb-4"
-                 alt="" />
-
-            <img src="https://mdbootstrap.com/img/Photos/Vertical/mountain1.jpg"
-                 class="w-100 shadow-1-strong rounded mb-4"
-                 alt="" />
-        </div>
+    <div class="col-lg-4 col-md-12 mb-4 mb-lg-0">
+        <img src="https://mdbootstrap.com/img/Photos/Horizontal/Nature/4-col/img%20(73).jpg"
+            class="w-100 shadow-1-strong rounded mb-4"
+            alt="" />
+            
+        <img src="https://mdbootstrap.com/img/Photos/Vertical/mountain1.jpg"
+            class="w-100 shadow-1-strong rounded mb-4"
+            alt="" />
+    </div>
 </div>*@
-

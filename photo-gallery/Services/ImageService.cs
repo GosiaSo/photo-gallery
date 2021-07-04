@@ -25,5 +25,12 @@ namespace WebApp.Services
             var dtoImage = await api.GetAllAsync(UserImgId);
             return dtoImage.Select(dto => ImageItemViewModel.FromDto(dto)).ToArray();
         }
+
+        // inter
+        public async void DeleteImageAsync(string imageId)
+        {
+            ImageWebApiClient api = new ImageWebApiClient(url, http);
+            await api.DeleteAsync(imageId);
+        }
     }
 }
