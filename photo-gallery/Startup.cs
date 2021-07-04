@@ -38,7 +38,8 @@ namespace WebApp
                 opt.MinimumSameSitePolicy = Microsoft.AspNetCore.Http.SameSiteMode.None;
             });
 
-            services.AddScoped<IImageService, ImageService>();
+            // Dodanie ImageService
+            services.AddScoped<ImageService>();
 
             services.AddAuthentication();
 

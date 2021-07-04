@@ -15,7 +15,7 @@ namespace ImageDatabase.Migrations
                     Extension = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     Date = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     Time = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    Comment = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    Description = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     UserImgID = table.Column<string>(type: "nvarchar(max)", nullable: true)
                 },
                 constraints: table =>

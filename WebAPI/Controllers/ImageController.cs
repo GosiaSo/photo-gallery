@@ -21,90 +21,99 @@ namespace WebAPI.Controllers
             _dbContext = dbContext;
         }
 
-        [HttpPost("upload/{filepath}")]
-        public void UploadImage(string filepath, string title, string comment, string UserID)
+        // api/Image/UploadImage
+        [HttpPost(nameof(UploadImage), Name = nameof(UploadImage))]
+        public void UploadImage(string filepath, string title, string description, string UserID)
         {
             BlobContainerClient containerClient = new BlobContainerClient("UseDevelopmentStorage=true", "galleryimages");
-                try
+            try
+            {
+                string imgGUID = Guid.NewGuid().ToString();
+                
+                BlobClient blobClient = containerClient.GetBlobClient(UserID + "/" + imgGUID);
+                using FileStream fileStream = System.IO.File.OpenRead(filepath);
                 {
-                    string imgGUID = Guid.NewGuid().ToString();
-                    BlobClient blobClient = containerClient.GetBlobClient(imgGUID);
-                    using FileStream fileStream = System.IO.File.OpenRead(filepath);
-                    {
-                        blobClient.Upload(fileStream);
-                    }
-                    Guid id = Guid.NewGuid();
-                    _dbContext.ImageEntities.Add(new ImageDatabase.Entities.ImageEntity
-                    {
-                        Id = imgGUID,
-                        Extension = Path.GetExtension(filepath),
-                        Title = title,
-                        Date = DateTime.Today.ToString("MM/dd/yyyy"),
-                        Time = DateTime.Now.ToString("hh:mm tt"),
-                        Comment = comment,
-                        UserImgID = UserID
-                    });
-                    _dbContext.SaveChanges();
+                    blobClient.Upload(fileStream);
+                }
+                _dbContext.ImageEntities.Add(new ImageDatabase.Entities.ImageEntity
+                {
+                    Id = imgGUID,
+                    Extension = Path.GetExtension(filepath),
+                    Title = title,
+                    Date = DateTime.Today.ToString("MM/dd/yyyy"),
+                    Time = DateTime.Now.ToString("hh:mm tt"),
+                    Description = description,
+                    UserImgID = UserID
+                });
+                _dbContext.SaveChanges();
             }
             catch (Exception) { }
         }
 
-        // api/Image/get/{imgname}
-        [HttpGet("get/{imgname}")]
-        public ActionResult<string> GetImageUrl(string imgname)
+        // api/Image/GetAll/{userId}
+        [HttpGet(nameof(GetAll)+ "/{UserImgId}", Name = nameof(GetAll))]
+        public ActionResult<IEnumerable<ImageDTO>> GetAll(string UserImgId)
         {
-
             BlobContainerClient containerClient = new BlobContainerClient("UseDevelopmentStorage=true", "galleryimages");
 
             //get the container url here
             string container_url = containerClient.Uri.ToString();
 
-            return container_url+"/"+imgname;
+            return _dbContext.ImageEntities.Where(item => item.UserImgID == UserImgId).Select(e => new ImageDTO
+                {
+                    Id = e.Id,
+                    Extension = e.Extension,
+                    Title = e.Title,
+                    Date = e.Date,
+                    Time = e.Time,
+                    Description = e.Description
+                }).ToList();
         }
-
-        // api/Image/{id}
-        //[HttpGet("{userId}")]
-        //public ActionResult<IEnumerable<ImageDTO>> Get(string userId)
-        //{
-        //    return _dbContext.ImageEntities.Where(item => item.UserId == userId).Select(e => new ImageDTO
-        //    {
-        //        Id = e.Id,
-        //        Title = e.Title,
-        //        ImageUrl = e.ImageUrl,
-        //        Date = e.Date,
-        //        Time = e.Time,
-        //        Comment = e.Comment
-        //    }).ToList();
-        //}
-
-        // api/Image/upload/{filepath}
-
-        //
-        //[HttpPut("{id}")]
-        //public void Put(Guid id, [FromBody] ImageDTO value)
-        //{
-        //    var entity = _dbContext.ImageEntities.SingleOrDefault(e => e.Id == id);
-
-        //    if (entity != null)
-        //    {
-        //        entity.Date = value.Date;
-        //        entity.Time = value.Time;
-        //        _dbContext.SaveChanges();
-        //    }
-        //}
-
-        //
-        //[HttpDelete("{id}")]
-        //public void Delete(Guid id, [FromBody] ImageDTO value)
-        //{
-        //    var entity = _dbContext.ImageEntities.SingleOrDefault(e => e.Id == id);
-
-        //    if (entity != null)
-        //    {
-        //        _dbContext.ImageEntities.Remove(entity);
-        //        _dbContext.SaveChanges();
-        //    }
-        //}
-
     }
+
+    // api/Image/{id}
+    //[HttpGet("{userId}")]
+    //public ActionResult<IEnumerable<ImageDTO>> Get(string userId)
+    //{
+    //    return _dbContext.ImageEntities.Where(item => item.UserId == userId).Select(e => new ImageDTO
+    //    {
+    //        Id = e.Id,
+    //        Title = e.Title,
+    //        ImageUrl = e.ImageUrl,
+    //        Date = e.Date,
+    //        Time = e.Time,
+    //        Description = e.Description
+    //    }).ToList();
+    //}
+
+    // api/Image/upload/{filepath}
+
+    //
+    //[HttpPut("{id}")]
+    //public void Put(Guid id, [FromBody] ImageDTO value)
+    //{
+    //    var entity = _dbContext.ImageEntities.SingleOrDefault(e => e.Id == id);
+
+    //    if (entity != null)
+    //    {
+    //        entity.Date = value.Date;
+    //        entity.Time = value.Time;
+    //        _dbContext.SaveChanges();
+    //    }
+    //}
+
+    //
+    //[HttpDelete("{id}")]
+    //public void Delete(Guid id, [FromBody] ImageDTO value)
+    //{
+    //    var entity = _dbContext.ImageEntities.SingleOrDefault(e => e.Id == id);
+
+    //    if (entity != null)
+    //    {
+    //        _dbContext.ImageEntities.Remove(entity);
+    //        _dbContext.SaveChanges();
+    //    }
+    //}
+
+
 }
