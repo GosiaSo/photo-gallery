@@ -1,6 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
+﻿using System.Linq;
 using System.Net.Http;
 using System.Threading.Tasks;
 using WebApp.Models;
@@ -26,6 +24,13 @@ namespace WebApp.Services
             ImageWebApiClient api = new ImageWebApiClient(url, http);
             var dtoImage = await api.GetAllAsync(UserImgId);
             return dtoImage.Select(dto => ImageItemViewModel.FromDto(dto)).ToArray();
+        }
+
+        // inter
+        public async void DeleteImageAsync(string imageId)
+        {
+            ImageWebApiClient api = new ImageWebApiClient(url, http);
+            await api.DeleteAsync(imageId);
         }
     }
 }

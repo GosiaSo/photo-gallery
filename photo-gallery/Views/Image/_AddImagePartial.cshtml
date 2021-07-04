@@ -1,12 +1,15 @@
 ﻿@model ImageItemViewModel
 
 <form asp-action="AddImage" method="post">
-    <label>Add new image:</label>
-    <label asp-for="FilePath">Filepath:</label>
-    <input asp-for="FilePath" />
-    <label asp-for="Title">Title:</label>
-    <input asp-for="Title" />
-    <label asp-for="Description">Description:</label>
-    <input asp-for="Description" />
-    <button type="submit">Add</button>
+    <label class="col-md-12">Add new image:</label>
+    <div class="col-md-12">
+        <label asp-for="FilePath">Filepath:</label>
+        <input asp-for="FilePath" />
+        <label asp-for="Title">Title:</label>
+        <input asp-for="Title" />
+        <label asp-for="Description">Description:</label>
+        <input asp-for="Description" />
+        <button type="submit" class="btn btn-dark">Upload</button>
+    </div>
+    <hr>
 </form>

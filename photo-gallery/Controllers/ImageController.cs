@@ -53,7 +53,26 @@ namespace WebApp.Controllers
 
             _imageService.PostImageAsync(newImage, newImage.FilePath, currentUser.UserImgID);
 
-            return RedirectToAction("Index");
+            await Task.Delay(1000);
+
+            return RedirectToAction("Index", "Image");
+        }
+
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> DeleteImage(string ImageId)
+        {
+            var currentUser = await _userManager.GetUserAsync(User);
+
+            if (currentUser == null)
+            {
+                return Challenge();
+            }
+
+            _imageService.DeleteImageAsync(ImageId);
+
+            await Task.Delay(1000);
+
+            return RedirectToAction("Index", "Image");
         }
     }
 }

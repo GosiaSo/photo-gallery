@@ -6,6 +6,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using WebAPI.Models;
+using Azure.Storage.Sas;
 
 namespace WebAPI.Controllers
 {
@@ -23,13 +24,13 @@ namespace WebAPI.Controllers
 
         // api/Image/UploadImage
         [HttpPost(nameof(UploadImage), Name = nameof(UploadImage))]
-        public void UploadImage(string filepath, string title, string description, string UserID)
+        public string UploadImage(string filepath, string title, string description, string UserID)
         {
             BlobContainerClient containerClient = new BlobContainerClient("UseDevelopmentStorage=true", "galleryimages");
             try
             {
                 string imgGUID = Guid.NewGuid().ToString();
-                
+
                 BlobClient blobClient = containerClient.GetBlobClient(UserID + "/" + imgGUID);
                 using FileStream fileStream = System.IO.File.OpenRead(filepath);
                 {
@@ -46,74 +47,60 @@ namespace WebAPI.Controllers
                     UserImgID = UserID
                 });
                 _dbContext.SaveChanges();
+                return "success";
             }
             catch (Exception) { }
+
+            return "fail";
         }
 
         // api/Image/GetAll/{userId}
-        [HttpGet(nameof(GetAll)+ "/{UserImgId}", Name = nameof(GetAll))]
+        [HttpGet(nameof(GetAll) + "/{UserImgId}", Name = nameof(GetAll))]
         public ActionResult<IEnumerable<ImageDTO>> GetAll(string UserImgId)
         {
             BlobContainerClient containerClient = new BlobContainerClient("UseDevelopmentStorage=true", "galleryimages");
 
-            //get the container url here
-            string container_url = containerClient.Uri.ToString();
-
             return _dbContext.ImageEntities.Where(item => item.UserImgID == UserImgId).Select(e => new ImageDTO
-                {
-                    Id = e.Id,
-                    Extension = e.Extension,
-                    Title = e.Title,
-                    Date = e.Date,
-                    Time = e.Time,
-                    Description = e.Description
-                }).ToList();
+            {
+                Id = e.Id,
+                Extension = e.Extension,
+                Title = e.Title,
+                Date = e.Date,
+                Time = e.Time,
+                Description = e.Description,
+                imgURL = containerClient.GetBlobClient(UserImgId + "/" + e.Id).GenerateSasUri(BlobSasPermissions.Read, DateTimeOffset.Now.AddHours(1)).ToString()
+            }).ToList();
+        }
+
+        // api/Image/Delete/{Id}
+        [HttpDelete("Delete/{Id}", Name = nameof(Delete))]
+        public void Delete(string Id)
+        {
+
+            var entity = _dbContext.ImageEntities.SingleOrDefault(e => e.Id == Id);
+
+            if (entity != null)
+            {
+                BlobContainerClient containerClient = new BlobContainerClient("UseDevelopmentStorage=true", "galleryimages");
+                containerClient.GetBlobClient(entity.UserImgID + "/" + entity.Id).DeleteIfExists();
+
+                _dbContext.ImageEntities.Remove(entity);
+                _dbContext.SaveChanges();
+            }
         }
     }
-
-    // api/Image/{id}
-    //[HttpGet("{userId}")]
-    //public ActionResult<IEnumerable<ImageDTO>> Get(string userId)
-    //{
-    //    return _dbContext.ImageEntities.Where(item => item.UserId == userId).Select(e => new ImageDTO
-    //    {
-    //        Id = e.Id,
-    //        Title = e.Title,
-    //        ImageUrl = e.ImageUrl,
-    //        Date = e.Date,
-    //        Time = e.Time,
-    //        Description = e.Description
-    //    }).ToList();
-    //}
-
-    // api/Image/upload/{filepath}
-
-    //
-    //[HttpPut("{id}")]
-    //public void Put(Guid id, [FromBody] ImageDTO value)
-    //{
-    //    var entity = _dbContext.ImageEntities.SingleOrDefault(e => e.Id == id);
-
-    //    if (entity != null)
-    //    {
-    //        entity.Date = value.Date;
-    //        entity.Time = value.Time;
-    //        _dbContext.SaveChanges();
-    //    }
-    //}
-
-    //
-    //[HttpDelete("{id}")]
-    //public void Delete(Guid id, [FromBody] ImageDTO value)
-    //{
-    //    var entity = _dbContext.ImageEntities.SingleOrDefault(e => e.Id == id);
-
-    //    if (entity != null)
-    //    {
-    //        _dbContext.ImageEntities.Remove(entity);
-    //        _dbContext.SaveChanges();
-    //    }
-    //}
-
-
 }
+
+//
+//[HttpPut("{id}")]
+//public void Put(Guid id, [FromBody] ImageDTO value)
+//{
+//    var entity = _dbContext.ImageEntities.SingleOrDefault(e => e.Id == id);
+
+//    if (entity != null)
+//    {
+//        entity.Date = value.Date;
+//        entity.Time = value.Time;
+//        _dbContext.SaveChanges();
+//    }
+//}
