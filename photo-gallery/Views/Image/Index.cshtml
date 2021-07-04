@@ -17,9 +17,11 @@
                 <img src="@image.imgURL" class="card-img-top" alt="...">
                 <div class="card-body">
                     <h5 class="card-text">@image.Title</h5>
-                    <a href="#" class="btn btn-primary col-sm-4">Zoom</a>
-                    <a action="@Url.Action("Delete", new{ Id = image.Id })" class="btn btn-danger col-sm-4">Delete</a>
-                </div>
+                    <button href="#" class="btn btn-primary">Zoom</button>
+                    <form asp-action="DeleteImage" asp-route-imageId="@image.Id" method="post">
+                        <button type="submit" class="btn btn-danger">Delete</button>
+                    </form>
+</div>
             </div>
         </div>
     }
