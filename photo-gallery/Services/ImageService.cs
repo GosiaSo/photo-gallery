@@ -7,39 +7,25 @@ using WebApp.Models;
 
 namespace WebApp.Services
 {
-    public class ImageService : IImageService
+    public class ImageService
     {
         string url = "http://localhost:28143";
-
         HttpClient http = new HttpClient();
 
         // inter
-        public async Task<Guid> AddImageAsync(ImageItemViewModel image, string UserId)
+        public async void PostImageAsync(ImageItemViewModel image, string filepath, string UserImgId)
         {
-            ImageWebApiClient apiClient = new ImageWebApiClient(url, http);
+            ImageWebApiClient api = new ImageWebApiClient(url, http);
 
-            image.UserId = UserId;
-           
-
-            Guid returnValue = await apiClient.ImageAsync(image.ToImageDto());
-
-            return returnValue;
+            await api.UploadImageAsync(filepath, image.Title, image.Description, UserImgId);
         }
 
-        /// inter
-        public async Task<ImageItemViewModel[]> GetImageAsync(string userId)
+        // inter
+        public async Task<ImageItemViewModel[]> GetImageAsync(string UserImgId)
         {
-            ImageWebApiClient apiClient = new ImageWebApiClient(url, http);
-            var dtoImage = await apiClient.ImageAllAsync(userId);
+            ImageWebApiClient api = new ImageWebApiClient(url, http);
+            var dtoImage = await api.GetAllAsync(UserImgId);
             return dtoImage.Select(dto => ImageItemViewModel.FromDto(dto)).ToArray();
         }
-
-        //public async Task<ImageItemViewModel> GetImageAsync(string userId)
-        //{
-        //    ImageWebApiClient apiClient = new ImageWebApiClient(url, http);
-        //    var dtoImages = await apiClient.ImageAllAsync(userId);
-        //    return returnValue;
-        //}
-
     }
 }

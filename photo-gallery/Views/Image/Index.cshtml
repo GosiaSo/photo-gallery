@@ -7,13 +7,13 @@
 
 @foreach (var image in Model.Images)
 {
-    <div class="card" style="width: 18rem;">
-        <img src="@image.ImageUrl" class="card-img-top" alt="...">
-        <div class="card-body">
-            <h5 class="card-text">@image.Title</h5>
-            <a href="#" class="btn btn-primary">Go somewhere</a>
-        </div>
+<div class="card" style="width: 18rem;">
+    <img src="http://127.0.0.1:10000/devstoreaccount1/galleryimages/27dc7230-e294-462a-ac3c-0182ea2af4ab/f105cf60-8ad4-41bd-bbac-bb07a183df39?sv=2018-03-28&st=2021-07-04T12%3A16%3A24Z&se=2021-07-05T12%3A16%3A24Z&sr=b&sp=r&sig=4eD1ofl2G8eXkv1YO9aU3xQOd%2BoaEhHOVUW9vst7TjA%3D" class="card-img-top" alt="..."> @*@(image.UserImgId + "/")*@
+    <div class="card-body">
+        <h5 class="card-text">@image.Title</h5>
+        <a href="#" class="btn btn-primary">Go somewhere</a>
     </div>
+</div>
 }
 
 <div class="panel-footer add-item-form">

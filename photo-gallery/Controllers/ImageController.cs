@@ -13,10 +13,10 @@ namespace WebApp.Controllers
 {
     public class ImageController : Controller
     {
-        private readonly IImageService _imageService;
+        private readonly ImageService _imageService;
         private readonly UserManager<AppUser> _userManager;
 
-        public ImageController (IImageService imageService, UserManager<AppUser> userManager)
+        public ImageController(ImageService imageService, UserManager<AppUser> userManager)
         {
             _imageService = imageService;
             _userManager = userManager;        
@@ -31,7 +31,7 @@ namespace WebApp.Controllers
                 return Challenge();
             }
 
-            var images = await _imageService.GetImageAsync(currentUser.Id);
+            var images = await _imageService.GetImageAsync(currentUser.UserImgID);
             
             var model = new ImageViewModel()
             {
@@ -51,7 +51,7 @@ namespace WebApp.Controllers
                 return Challenge();
             }
 
-            Guid guid = await _imageService.AddImageAsync(newImage, currentUser.Id);
+            _imageService.PostImageAsync(newImage, newImage.FilePath, currentUser.UserImgID);
 
             return RedirectToAction("Index");
         }
