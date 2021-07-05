@@ -1,0 +1,24 @@
+﻿@model ImageViewModel
+
+
+<div class="row">        
+    @foreach (var image in Model.Images)
+    {
+
+            <div class="card">
+                <div class=" card-header">
+                    @image.Title
+                </div>
+                <img src="@image.imgURL" class="card-img-top" alt="...">
+                <div class="card-body">
+                    <p class="card-text">Image Description: @image.Description </p>
+                    <p class="card-text">Image was uploaded on: @image.Date  @image.Time</p>
+                    <form method="post">
+                        <button class="btn btn-primary" asp-action="ReturnToGallery">Return to Gallery</button>
+                    </form>
+                </div>
+            </div>
+
+    }
+</div>
+

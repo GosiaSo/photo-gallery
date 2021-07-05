@@ -72,6 +72,24 @@ namespace WebAPI.Controllers
             }).ToList();
         }
 
+        // api/Image/GetImage/{userId & imgGUID}
+        [HttpGet(nameof(GetImage) + "/{UserImgId}", Name = nameof(GetImage))]
+        public ActionResult<IEnumerable<ImageDTO>> GetImage(string UserImgId, string imgGUID)
+        {
+            BlobContainerClient containerClient = new BlobContainerClient("UseDevelopmentStorage=true", "galleryimages");
+
+            return _dbContext.ImageEntities.Where(item => item.UserImgID == UserImgId && item.Id == imgGUID).Select(e => new ImageDTO
+            {
+                Id = e.Id,
+                Extension = e.Extension,
+                Title = e.Title,
+                Date = e.Date,
+                Time = e.Time,
+                Description = e.Description,
+                imgURL = containerClient.GetBlobClient(UserImgId + "/" + e.Id).GenerateSasUri(BlobSasPermissions.Read, DateTimeOffset.Now.AddHours(1)).ToString()
+            }).ToList();
+        }
+
         // api/Image/Delete/{Id}
         [HttpDelete("Delete/{Id}", Name = nameof(Delete))]
         public void Delete(string Id)

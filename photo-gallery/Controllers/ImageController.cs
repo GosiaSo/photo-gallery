@@ -41,6 +41,25 @@ namespace WebApp.Controllers
             return View(model);
         }
 
+        public async Task<IActionResult> EnlargeImage(string imageId)
+        {
+            var currentUser = await _userManager.GetUserAsync(User);
+            if (currentUser == null)
+            {
+                return Challenge();
+            }
+
+             var image = await _imageService.EnlargeImageAsync(currentUser.UserImgID, imageId );
+
+            var model = new ImageViewModel()
+            {
+                Images = image
+            };
+
+            return View(model);
+
+        }
+
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> AddImage(ImageItemViewModel newImage)
         {
@@ -72,6 +91,10 @@ namespace WebApp.Controllers
 
             await Task.Delay(1000);
 
+            return RedirectToAction("Index", "Image");
+        }
+        public  async Task<IActionResult> ReturnToGallery()
+        {
             return RedirectToAction("Index", "Image");
         }
     }

@@ -13,15 +13,22 @@
     @foreach (var image in Model.Images)
     {
         <div class="col-sm-4">
-            <div class="card" style="width: 18rem;">
+            <div class="card" style="width: 20rem;">
+                <div class="card-header">
+                    @image.Title
+                </div>
                 <img src="@image.imgURL" class="card-img-top" alt="...">
+                @*<img src="@image.imgURL" class="card-img-top" alt="..." onclick="window.open('@image.imgURL', '_blank');">*@
                 <div class="card-body">
-                    <h5 class="card-text">@image.Title</h5>
-                    <button href="#" class="btn btn-primary">Zoom</button>
+                    @*<h5 class="card-text">@image.Title</h5>*@
+                    @*<button class="btn btn-success" onclick=" window.open('@image.imgURL','_blank')">Enlarge</button>*@
+                    <form asp-action="EnlargeImage" asp-route-imageId="@image.Id" method="post">
+                        <button href="#" class="btn btn-primary">Enlarge Image</button>
+                    </form>
                     <form asp-action="DeleteImage" asp-route-imageId="@image.Id" method="post">
                         <button type="submit" class="btn btn-danger">Delete</button>
                     </form>
-</div>
+                </div>
             </div>
         </div>
     }

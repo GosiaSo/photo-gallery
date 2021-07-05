@@ -32,5 +32,12 @@ namespace WebApp.Services
             ImageWebApiClient api = new ImageWebApiClient(url, http);
             await api.DeleteAsync(imageId);
         }
+
+        public async Task<ImageItemViewModel[]> EnlargeImageAsync(string UserImgId, string imageId)
+        {
+            ImageWebApiClient api = new ImageWebApiClient(url, http);
+            var dtoImage = await api.GetImageAsync(UserImgId, imageId);
+            return dtoImage.Select(dto => ImageItemViewModel.FromDto(dto)).ToArray();
+        }
     }
 }
